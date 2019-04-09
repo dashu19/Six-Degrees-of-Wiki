@@ -5,7 +5,6 @@ import json
 #   two wikipedia pages are connected within 6 "degrees".
 #
 
-#check
 
 S = requests.Session()
 URL = "https://en.wikipedia.org/w/api.php"
@@ -28,7 +27,18 @@ def checkTitle(title):
         return False
     else:
         return True
-    
+
+def getStart():
+    """Asks user for input that will be passed in as a title parameter
+        Needs error checking capabilities
+    """
+    while True:
+        ret = input("Enter a starting point: ")
+        if checkTitle(ret):
+            return ret
+        else:
+            print("Try again!")
+            continue
     
 
 
@@ -68,7 +78,10 @@ def getTitlesfromlist(titles):
 
 def main():
     print('in the main')
+    print('Welcome!')
+    print("Let's see if two Wikipedia pages are within 6 degrees of each other!")
     while True:
+        
         #dostuff
         break
     return 'lmao'
