@@ -9,7 +9,7 @@ URL = "https://en.wikipedia.org/w/api.php"
 dupecheck = {}
 
 
-def getlinkstitles(title):
+def getTitles(title):
     rparams = {
         "action": "query",
         "format": "json",
@@ -26,15 +26,28 @@ def getlinkstitles(title):
     titles = []
 
     for x in Data:
-        titles += [x['title']]
+        if x['title'] not in dupecheck:
+            dupecheck[x['title']] = 1
+            titles += [x['title']]
 
     return titles
 
-def childrensearch(titles):
+def getTitlesfromlist(titles):
     ret = []
     for x in titles:
-        ret += getlinkstitles(x)
+        ret += getTitles(x)
     return ret
+
+##a= getTitles('Albert Einstein')
+##print(a)
+##b= getTitlesfromlist(a)
+##print(b[:10])
+
+def main():
+    print('in the main')
+    return 0
+
+main()
 
 
 
