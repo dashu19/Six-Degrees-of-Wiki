@@ -1,12 +1,35 @@
 import requests
 import json
 
+#   This will be a small Python app that asks the user for a starting point and and end point, to see if
+#   two wikipedia pages are connected within 6 "degrees".
+#
+
+
 
 S = requests.Session()
-
 URL = "https://en.wikipedia.org/w/api.php"
 
-dupecheck = {}
+dupecheck = {} #hm... need a new dupe check for each query
+
+def checkTitle(title):
+    """Takes string represeting pages title parameter, and checks if it is a valid page title"""
+    
+    rparams = {
+        "action": "query",
+        "format": "json",
+        "titles": title,
+    }
+
+    R = S.get(URL, params = rparams)
+    Data = R.json()
+    mykey = list(Data["query"]['pages'].keys())[0]
+    if mykey == '-1':
+        return False
+    else:
+        return True
+    
+    
 
 
 def getTitles(title):
@@ -20,9 +43,9 @@ def getTitles(title):
 
     R = S.get(URL, params = rparams)
     Data = R.json()
-    mykey = list(Data["query"]['pages'].keys())
+    mykey = list(Data["query"]['pages'].keys())[0]
 
-    Data = Data["query"]['pages'][mykey[0]]['links']
+    Data = Data["query"]['pages'][mykey]['links']
     titles = []
 
     for x in Data:
@@ -45,7 +68,10 @@ def getTitlesfromlist(titles):
 
 def main():
     print('in the main')
-    return 0
+    while True:
+        #dostuff
+        break
+    return 'lmao'
 
 main()
 
