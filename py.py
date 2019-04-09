@@ -5,7 +5,7 @@ import json
 #   two wikipedia pages are connected within 6 "degrees".
 #
 
-
+#check
 
 S = requests.Session()
 URL = "https://en.wikipedia.org/w/api.php"
