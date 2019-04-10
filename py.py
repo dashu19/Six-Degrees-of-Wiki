@@ -9,7 +9,7 @@ import json
 S = requests.Session()
 URL = "https://en.wikipedia.org/w/api.php"
 
-dupecheck = {} #hm... need a new dupe check for each query
+#dupecheck = {} #hm... need a new dupe check for each query, reinstantiate function?
 
 def checkTitle(title):
     """Takes string represeting pages title parameter, and checks if it is a valid page title"""
@@ -39,16 +39,28 @@ def getStart():
         else:
             print("Try again!")
             continue
+
+def getEnd():
+    """Asks user for input that will be passed in as a title parameter
+        Needs error checking capabilities
+    """
+    while True:
+        ret = input("Enter a ending point: ")
+        if checkTitle(ret):
+            return ret
+        else:
+            print("Try again!")
+            continue
     
 
 
-def getTitles(title):
+def getTitles(title, dupecheck):
     rparams = {
         "action": "query",
         "format": "json",
         "titles": title,
         "prop": "links",
-        "pllimit": 'max'
+        #"pllimit": 'max'
     }
 
     R = S.get(URL, params = rparams)
@@ -63,13 +75,25 @@ def getTitles(title):
             dupecheck[x['title']] = 1
             titles += [x['title']]
 
-    return titles
+    return [titles, dupecheck]
 
-def getTitlesfromlist(titles):
+def getTitlesfromlist(titles, dupecheck):
     ret = []
     for x in titles:
-        ret += getTitles(x)
+        ret += getTitles(x, dupecheck)[0]
     return ret
+
+def query():
+    dupecheck = {}
+    start = getStart()
+    end = getEnd()
+
+    a = getTitles(start, dupecheck)
+    b = getTitlesfromlist(a[0], a[1])
+    print(a)
+    print(b)
+    return 0
+    
 
 ##a= getTitles('Albert Einstein')
 ##print(a)
@@ -82,7 +106,6 @@ def main():
     print("Let's see if two Wikipedia pages are within 6 degrees of each other!")
     while True:
         
-        #dostuff
         break
     return 'lmao'
 
